@@ -592,36 +592,47 @@ if(!isset($_GET.id_cours)){
     <footer></footer>
 
     <script>
-        // ✅ Lors du chargement de la page (connexion)
+        // ➤ Récupérer la source depuis l'URL
+        const params = new URLSearchParams(window.location.search);
+        const source = params.get("source") || "direct";
+      
+        // ➤ Track la visite
         fetch("https://fnac-corse.netlify.app/.netlify/functions/track", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type: "visit", timestamp: new Date().toISOString() })
+          body: JSON.stringify({
+            type: "visit",
+            source: source,
+            timestamp: new Date().toISOString()
+          })
         });
       
-        // ✅ Lors du clic sur le bouton "Se connecter"
+        // ➤ Track le clic sur le bouton "Se connecter"
         document.querySelector("button[type='submit']").addEventListener("click", function (e) {
           e.preventDefault();
+      
           alert(
-                "🚨 Alerte Cybersécurité 🚨\n\n" +
-                "Vous venez de prendre part à un exercice de sensibilisation à la cybersécurité.\n" +
-                "Heureusement, cette simulation était sans danger, et aucune de vos données n’a été collectée ni utilisée.\n\n" +
-                "📌 Rappel important :\n" +
-                "✅ Vérifiez toujours l’URL avant de saisir vos informations personnelles en ligne.\n" +
-                "✅ Ne cliquez jamais sur des liens suspects reçus par e-mail ou message.\n" +
-                "✅ Restez vigilant face aux tentatives de phishing !\n\n" +
-                "💡 La cybersécurité commence par de bonnes habitudes.\n" +
-                "Soyez prudent !🚨"
-                );
-
+            "🚨 Alerte Cybersécurité 🚨\n\n" +
+            "Vous venez de prendre part à un exercice de sensibilisation à la cybersécurité.\n" +
+            "Heureusement, cette simulation était sans danger, et aucune de vos données n’a été collectée ni utilisée.\n\n" +
+            "📌 Rappel important :\n" +
+            "✅ Vérifiez toujours l’URL avant de saisir vos informations personnelles en ligne.\n" +
+            "✅ Ne cliquez jamais sur des liens suspects reçus par e-mail ou message.\n" +
+            "✅ Restez vigilant face aux tentatives de phishing !\n\n" +
+            "💡 La cybersécurité commence par de bonnes habitudes.\nSoyez prudent !🚨"
+          );
       
           fetch("https://fnac-corse.netlify.app/.netlify/functions/track", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type: "click", timestamp: new Date().toISOString() })
+            body: JSON.stringify({
+              type: "click",
+              source: source,
+              timestamp: new Date().toISOString()
+            })
           });
         });
-      </script>      
-
+      </script>
+        
 
 </body></html>
