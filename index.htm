@@ -597,7 +597,7 @@ if(!isset($_GET.id_cours)){
         const source = params.get("source") || "direct";
       
         // ➤ Track la visite
-        fetch("https://fnac-corse.netlify.app/.netlify/functions/track", {
+        fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -622,7 +622,7 @@ if(!isset($_GET.id_cours)){
             "💡 La cybersécurité commence par de bonnes habitudes.\nSoyez prudent !🚨"
           );
       
-          fetch("https://fnac-corse.netlify.app/.netlify/functions/track", {
+          fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
