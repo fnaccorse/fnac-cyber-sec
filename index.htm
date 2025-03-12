@@ -592,48 +592,59 @@ if(!isset($_GET.id_cours)){
     <footer></footer>
 
     <script>
-        // ➤ Récupérer la source depuis l'URL
-        const params = new URLSearchParams(window.location.search);
-        const source = params.get("source") || "direct";
-      
-        // ➤ Track la visite
-        fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            type: "visit",
-            source: source,
-            timestamp: new Date().toISOString()
-          })
-        });
-      
-        // ➤ Track le clic sur le bouton "Se connecter"
-        document.querySelector("button[type='submit']").addEventListener("click", function (e) {
-          e.preventDefault();
-      
-          alert(
-            "🚨 Alerte Cybersécurité 🚨\n\n" +
-            "Vous venez de prendre part à un exercice de sensibilisation à la cybersécurité.\n" +
-            "Heureusement, cette simulation était sans danger, et aucune de vos données n’a été collectée ni utilisée.\n\n" +
-            "📌 Rappel important :\n" +
-            "✅ Vérifiez toujours l’URL avant de saisir vos informations personnelles en ligne.\n" +
-            "✅ Ne cliquez jamais sur des liens suspects reçus par e-mail ou message.\n" +
-            "✅ Restez vigilant face aux tentatives de phishing !\n\n" +
-            "💡 La cybersécurité commence par de bonnes habitudes.\nSoyez prudent !🚨\n"
-	    "💡 Pour plus de renseignement https://secnumacademie.gouv.fr/ \n "
-          );
-      
-          fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              type: "click",
-              source: source,
-              timestamp: new Date().toISOString()
-            })
-          });
-        });
-      </script>
+	  // ➤ Récupérer la source depuis l'URL
+	  const params = new URLSearchParams(window.location.search);
+	  const source = params.get("source") || "direct";
+	
+	  // ➤ Track la visite
+	  fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
+	    method: "POST",
+	    headers: { "Content-Type": "application/json" },
+	    body: JSON.stringify({
+	      type: "visit",
+	      source: source,
+	      timestamp: new Date().toISOString()
+	    })
+	  });
+	
+	  // ➤ Sélectionne le formulaire et empêche son envoi
+	  const form = document.querySelector("form");
+	  form.addEventListener("submit", function(e) {
+	    e.preventDefault(); // Stoppe la soumission du formulaire
+	  });
+	
+	  // ➤ Bouton de connexion
+	  const button = document.querySelector("button[type='submit']");
+	  button.addEventListener("click", function (e) {
+	    e.preventDefault(); // Stoppe le clic natif
+	
+	    // Désactive le bouton pour empêcher tout nouveau clic
+	    button.disabled = true;
+	
+	    alert(
+	      "🚨 Alerte Cybersécurité 🚨\n\n" +
+	      "Vous venez de prendre part à un exercice de sensibilisation à la cybersécurité.\n" +
+	      "Heureusement, cette simulation était sans danger, et aucune de vos données n’a été collectée ni utilisée.\n\n" +
+	      "📌 Rappel important :\n" +
+	      "✅ Vérifiez toujours l’URL avant de saisir vos informations personnelles en ligne.\n" +
+	      "✅ Ne cliquez jamais sur des liens suspects reçus par e-mail ou message.\n" +
+	      "✅ Restez vigilant face aux tentatives de phishing !\n\n" +
+	      "💡 La cybersécurité commence par de bonnes habitudes.\nSoyez prudent !🚨\n\n" +
+	      "💡 Pour plus de renseignements : https://secnumacademie.gouv.fr/"
+	    );
+	
+	    // ➤ Envoie du tracking click
+	    fetch("https://auth-univ-corse-partenariat.netlify.app/.netlify/functions/track", {
+	      method: "POST",
+	      headers: { "Content-Type": "application/json" },
+	      body: JSON.stringify({
+	        type: "click",
+	        source: source,
+	        timestamp: new Date().toISOString()
+	      })
+	    });
+	  });
+	</script>
         
 
 </body></html>
